@@ -1,13 +1,19 @@
-﻿namespace asp.net_tuto_03.Models.Employees
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace asp.net_tuto_03.Models.Employees
 {
     public class Employee
     {
+        [Required]
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; } = null!;
 
+        [Required]
         public string Position { get; set; } = null!;
 
+        [Range(1,4000)]
         public int Salary { get; set; }
 
         public Employee() { }

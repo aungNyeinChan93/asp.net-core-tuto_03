@@ -26,7 +26,7 @@ app.MapPost("/employees", async ([FromBody] Employee employee) =>
 {
     EmployeeRepository.AddEmployee(employee);
     return Results.Ok(new {message= "Employee successfully created!"});
-});
+}).WithParameterValidation();
 
 app.MapPut("/employees", async ([FromQuery] int? id, [FromBody] Employee employee) =>
 {
