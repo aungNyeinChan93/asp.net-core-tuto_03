@@ -1,4 +1,5 @@
 using asp.net_tuto_03.Models.Employees;
+using asp.net_tuto_03.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,5 +45,42 @@ app.MapDelete("/employees/{id:int?}", async ([FromRoute] int? id) =>
     EmployeeRepository.DeleteEmployee(id);
     return Results.Ok(new { message = "Delete success!" });
 });
+
+// Users
+app.MapGet("/users/{id:int?}", async (int? id) =>
+{
+    if(id is not null)
+    {
+        var user = UserRepo.GetUser(id);
+        return Results.Ok(user);
+    }
+    return Results.Ok(UserRepo.GetUsers());
+});
+
+app.MapPost("/users", async ([FromBody] User? user) =>
+{
+    UserRepo.AddUser(user);
+    return Results.Ok(user);
+}).WithParameterValidation();
+
+app.MapPut("/users", async ([FromQuery] int? id, [FromBody] User? user) =>
+{
+    if(id is not null && user is not null)
+    {
+        var updatedUser = UserRepo.UpdateUser(id, user);
+        return Results.Ok(updatedUser);
+    }
+    return Results.Problem("user update fail!");
+}).WithParameterValidation();
+
+app.MapDelete("/users/{id:int?}", async ([FromRoute] int? id) =>
+{
+    if(id is null) return Results.Problem("Id is not found");
+
+    UserRepo.DeleteUser(id);
+    return Results.Ok(new { message = "Delete success!" });
+});
+
+
 
 app.Run();
