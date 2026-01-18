@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using asp.net_tuto_03.Custome_Valadation;
+using System.ComponentModel.DataAnnotations;
 
 namespace asp.net_tuto_03.Models.Employees
 {
@@ -13,7 +14,8 @@ namespace asp.net_tuto_03.Models.Employees
         [Required]
         public string Position { get; set; } = null!;
 
-        [Range(1,4000)]
+        //[Range(1,4000)]
+        [Employee_Salary]
         public int Salary { get; set; }
 
         public Employee() { }
