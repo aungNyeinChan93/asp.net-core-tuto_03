@@ -19,7 +19,7 @@ namespace asp.net_tuto_03.Models.Users
         public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(20)]
+        [StringLength(20,MinimumLength =6,ErrorMessage ="Password Lenght between 6 and 20")]
         public string Password { get; set; } = null!;
 
         public User() { }
