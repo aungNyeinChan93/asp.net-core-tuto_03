@@ -84,11 +84,12 @@ app.MapDelete("/users/{id:int?}", async ([FromRoute] int? id) =>
 
 
 // Auth
-//app.MapGet("/register", async ([FromQuery] string? email, string? password, string? confrimPassword ) =>
-//{
-//    var registerObj = new Register() { Email = email, Password = password, ConfrimPassword = confrimPassword };
-//    return Results.Ok(registerObj);
-//}).WithParameterValidation();
+app.MapGet("/register", async (Register? registerDto) =>
+{
+    if (registerDto is null) return Results.Problem("Register fail!");
+    var registerObj = new Register() { Email = registerDto.Email, Password = registerDto.Password, ConfrimPassword = registerDto.ConfrimPassword };
+    return Results.Ok(new { message = "register success", registerObj });
+}).WithParameterValidation();
 
 app.MapPost("/register", async ([FromBody] Register? registerDto) =>
 {

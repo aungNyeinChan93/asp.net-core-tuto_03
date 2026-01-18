@@ -30,5 +30,14 @@ namespace asp.net_tuto_03.Models.Auth
         [Required]
         [Compare("Password")]
         public string? ConfrimPassword { get; set; }
+
+        public static ValueTask<Register?> BindAsync(HttpContext context)
+        {
+            var email = context.Request.Query["email"];
+            var password = context.Request.Query["password"];
+            var confirmPassword = context.Request.Query["confirmPassword"];
+
+            return new ValueTask<Register>(new Register { Email = email, ConfrimPassword = confirmPassword, Password = password });
+        }
     }
 }
