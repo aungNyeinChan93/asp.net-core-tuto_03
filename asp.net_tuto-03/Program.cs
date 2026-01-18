@@ -4,7 +4,19 @@ using asp.net_tuto_03.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler();
+}
+
+//Apply services
+app.UseStatusCodePages();
 
 app.MapGet("/", (HttpContext context) =>
 {
