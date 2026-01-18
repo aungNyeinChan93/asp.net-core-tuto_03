@@ -60,18 +60,31 @@ app.MapGet("/users/{id:int?}", async (int? id) =>
 
 app.MapPost("/users", async ([FromBody] User? user) =>
 {
+    if (user?.Id < 0)
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>()
+        {
+             //{"id",new[] {"User is not invalid" ,"user id is not invalid" } },
+             {"id",["user is not invalid", "user Id is not invalid"] },
+        });
+    }
     UserRepo.AddUser(user);
-    return Results.Ok(user);
+    return Results.Created($"/users/{user?.Id}",user);
 }).WithParameterValidation();
 
 app.MapPut("/users", async ([FromQuery] int? id, [FromBody] User? user) =>
 {
+   
     if(id is not null && user is not null)
     {
         var updatedUser = UserRepo.UpdateUser(id, user);
         return Results.Ok(updatedUser);
     }
-    return Results.Problem("user update fail!");
+
+    return Results.ValidationProblem(new Dictionary<string, string[]>()
+    {
+         { "message",["User update fail!"]}
+    });
 }).WithParameterValidation();
 
 app.MapDelete("/users/{id:int?}", async ([FromRoute] int? id) =>
@@ -95,7 +108,7 @@ app.MapPost("/register", async ([FromBody] Register? registerDto) =>
 {
     if (registerDto is null) return Results.Problem("Register fail!");
     var registerObj = new Register() { Email = registerDto.Email, Password = registerDto.Password, ConfrimPassword = registerDto.ConfrimPassword };
-    return Results.Ok(new {message="register success",registerObj});
+    return TypedResults.Ok(new {message="register success",registerObj});
 }).WithParameterValidation();
 
 app.Run();
