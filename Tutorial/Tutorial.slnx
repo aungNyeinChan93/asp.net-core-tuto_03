@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Dapper.Database/Dapper.Database.csproj" />
+  <Project Path="Tutorial.Dapper/Tutorial.Dapper.csproj" />
+</Solution>
