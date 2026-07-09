@@ -1,5 +1,6 @@
 ﻿using Dapper.Database.Database.AppDbContext.Models;
 using Microsoft.EntityFrameworkCore;
+using Tutorial.Dapper.Feaatures.Employees;
 using Tutorial.Dapper.Services.DapperService;
 
 namespace Tutorial.Dapper
@@ -10,7 +11,8 @@ namespace Tutorial.Dapper
         {
             builder
                 .AddDatabase()
-                .AddDapperService();
+                .AddDapperService()
+                .AddServices();
 
             return builder;
         }
@@ -30,6 +32,13 @@ namespace Tutorial.Dapper
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
             });
+            return builder;
+        }
+
+
+        public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<EmployeeService>();
             return builder;
         }
     }
